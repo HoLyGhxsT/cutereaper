@@ -18,36 +18,20 @@ module.exports = (client) => {
       }
     }
 
-    const clientId = process.env.CLIENT_ID;
-    const guildId = process.env.GUILD_ID;
-    const isDEV = process.env.ENV == 'Dev';
-    const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
-    if (isDEV) {
-      //loads discord commands on prefered guild/server mention in guildId
-      try {
-        console.log("Started refreshing application (/) commands.");
+    // const clientId = process.env.CLIENT_ID;
+    // const guildId = process.env.GUILD_ID; //if present commands only sync in that guild
+    // const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
+    // try {
+    //   console.log("Started refreshing application (/) commands.");
 
-        await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
-          body: client.commandSet,
-        });
+    //   await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
+    //     body: client.commandSet,
+    //   });
 
-        console.log("Successfully reloaded application (/) commands.\n");
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      //globally loads commands. Might take some time
-      try {
-        console.log("Started refreshing application (/) commands (Global).");
-
-        await rest.put(Routes.applicationCommands(clientId), {
-          body: client.commandSet,
-        });
-
-        console.log("Successfully reloaded application (/) commands.");
-      } catch (error) {
-        console.error(error);
-      }
-    }
+    //   console.log("Successfully reloaded application (/) commands.\n");
+    // } catch (error) {
+    //   console.error(error);
+    // }
+    // console.log(client.commandSet);
   };
 };
