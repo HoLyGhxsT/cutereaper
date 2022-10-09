@@ -1,8 +1,25 @@
 require("dotenv").config();
-const { Client, Collection, GatewayIntentBits } = require("discord.js");
+const {
+  Client,
+  Collection,
+  GatewayIntentBits,
+  Partials,
+} = require("discord.js");
 const fs = require("fs");
 
-const client = new Client({ intents: GatewayIntentBits.Guilds });
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+  ],
+  partials: [
+    Partials.User,
+    Partials.Message,
+    Partials.GuildMember,
+    Partials.ThreadMember,
+  ],
+});
 client.commands = new Collection();
 client.commandSet = [];
 
@@ -20,6 +37,9 @@ for (const file of handlers) {
   console.log(`${file} Loaded`);
 }
 
-client.eventhandler();
-client.cmdhandler();
-client.login(process.env.TOKEN);
+// client.eventhandler();
+// client.cmdhandler();
+client.login(process.env.TOKEN).then(() => {
+  client.eventhandler();
+  client.cmdhandler();
+});
